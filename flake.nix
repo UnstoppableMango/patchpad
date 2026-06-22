@@ -52,9 +52,11 @@
 
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
-              toolchain
               nix
               nixfmt
+              podman
+              skopeo
+              toolchain
             ];
           };
 
