@@ -1,0 +1,7 @@
+bin/
+/result*
+/target
+.claude/
+.vscode/*
+!.vscode/extensions.json
+.direnv/

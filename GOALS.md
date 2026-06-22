@@ -55,10 +55,14 @@ A secondary use case is simplifying the path from "I want to fix something in th
 - **Not a package manager.**
   patchpad does not install or manage packages.
 
-## Open questions
+## Implementation
 
-- **Session lifecycle.**
-  How and when should the session end and patch capture trigger?
-  (explicit command, shell exit, or both — not yet decided)
-- **Implementation stack.**
-  The tech stack for patchpad itself is not yet decided.
+- **Language:** Rust
+- **Session lifecycle:** shell exit triggers patch capture — user exits the spawned shell, diff is captured automatically
+
+## Future features
+
+- PR submission output mode
+- Nix overlay snippet output mode
+
+These are deferred; v0 outputs raw patch file only (stdout or named file).

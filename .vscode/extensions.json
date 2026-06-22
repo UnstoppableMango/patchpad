@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "editorconfig.editorconfig",
+        "jnoortheen.nix-ide",
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml"
+    ]
+}
