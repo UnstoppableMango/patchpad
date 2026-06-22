@@ -14,6 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.inputs.systems.follows = "systems";
     };
+
+    nix2container = {
+      url = "github:nlewo/nix2container";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -25,24 +30,39 @@
         treefmt-nix.flakeModule
       ];
 
-      perSystem = { pkgs, inputs', ... }: {
-        packages.default = pkgs.callPackage ./nix {
-          toolchain = inputs'.fenix.packages.stable.toolchain;
-        };
+      perSystem =
+        { pkgs, inputs', ... }:
+        let
+          inherit (inputs'.fenix.packages.stable) toolchain;
+          inherit (inputs'.nix2container.packages) nix2container;
 
-        devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            inputs'.fenix.packages.stable.toolchain
-            nix
-            nixfmt
-          ];
-        };
+          patchpad = (pkgs.callPackage ./nix { inherit toolchain; }).overrideAttrs (old: {
+            passthru = (old.passthru or { }) // {
+              container = pkgs.callPackage ./nix/container.nix {
+                inherit nix2container patchpad;
+              };
+            };
+          });
+        in
+        {
+          packages = {
+            inherit patchpad;
+            default = patchpad;
+          };
 
-        treefmt = {
-          projectRootFile = "flake.nix";
-          programs.rustfmt.enable = true;
-          programs.nixfmt.enable = true;
+          devShells.default = pkgs.mkShell {
+            packages = with pkgs; [
+              toolchain
+              nix
+              nixfmt
+            ];
+          };
+
+          treefmt = {
+            projectRootFile = "flake.nix";
+            programs.rustfmt.enable = true;
+            programs.nixfmt.enable = true;
+          };
         };
-      };
     };
 }
