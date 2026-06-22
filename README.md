@@ -4,6 +4,9 @@
 > Early-stage, personal tool.
 > Expect breaking changes and missing features.
 
+You are a human developer, what is your purpose?
+You generate patches.
+
 Enter a Nix derivation's source, make edits, get a `.patch` file.
 That's it.
 
