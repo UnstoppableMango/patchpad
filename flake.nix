@@ -1,6 +1,20 @@
 {
+  nixConfig = {
+    extra-substituters = [
+      "https://mangopkgs.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "mangopkgs.cachix.org-1:uJ5FgSbOg1uiXLcL0gBh1lO+y3KVuthy6UeOFYR1fLk="
+    ];
+  };
+
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # nixpkgs and nix2container follow mangopkgs so that skopeo-nix2container,
+    # which `container.copyTo` pulls in, resolves to the store path mangopkgs
+    # builds and pushes to its cachix cache. Pinning them independently means
+    # rebuilding skopeo from source.
+    mangopkgs.url = "github:unmango/pkgs";
+    nixpkgs.follows = "mangopkgs/nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
     systems.url = "github:nix-systems/default";
 
@@ -15,10 +29,7 @@
       inputs.flake-utils.inputs.systems.follows = "systems";
     };
 
-    nix2container = {
-      url = "github:nlewo/nix2container";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nix2container.follows = "mangopkgs/nix2container";
   };
 
   outputs =
