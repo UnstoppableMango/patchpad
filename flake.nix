@@ -16,7 +16,7 @@
     mangopkgs.url = "github:unmango/pkgs";
     nixpkgs.follows = "mangopkgs/nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    systems.url = "github:nix-systems/default";
+    systems.url = "github:UnstoppableMango/nix-systems";
 
     fenix = {
       url = "github:nix-community/fenix";
@@ -38,6 +38,7 @@
       systems = import inputs.systems;
 
       imports = with inputs; [
+        systems.flakeModule
         treefmt-nix.flakeModule
       ];
 
