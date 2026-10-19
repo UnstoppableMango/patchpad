@@ -1,5 +1,7 @@
 # patchpad
 
+[![Hercules CI](https://hercules-ci.com/api/v1/site/github/account/UnstoppableMango/project/patchpad/badge)](https://hercules-ci.com/github/UnstoppableMango/patchpad)
+
 > **Work in progress.**
 > Early-stage, personal tool.
 > Expect breaking changes and missing features.
